@@ -1,7 +1,7 @@
 # RequirementDefinitionTrainig
 ChatGPTのAPI(GPT=4)を使った、要件定義のヒアリングのトレーニング
 
-## Spetial Thanks
+## Special Thanks
 
 本プロジェクトは、下記のQiitaの記事より強いインスピレーションを受けました。  
 興味深い記事の執筆に深く感謝申し上げます。  
