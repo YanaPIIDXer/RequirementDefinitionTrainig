@@ -8,6 +8,7 @@ import { ChatGPT } from "@/classes/ChatGPT";
 const prompt = ref("");
 const response = ref("");
 const isProcessing = ref(false);
+const gpt = new ChatGPT(true);
 
 /**
  * 送信
@@ -15,7 +16,6 @@ const isProcessing = ref(false);
 const onSend = async () => {
   isProcessing.value = true;
   try {
-    const gpt = new ChatGPT();
     response.value = await gpt.sendSimple(prompt.value);
     prompt.value = "";
   } catch (error) {
@@ -24,7 +24,15 @@ const onSend = async () => {
   } finally {
     isProcessing.value = false;
   }
-}
+};
+
+/**
+ * コンテキストをクリア
+ */
+const clearContexts = () => {
+  gpt.clearContexts();
+  alert("コンテキストを初期化しました");
+};
 
 defineExpose({
   MdEditor,
@@ -34,6 +42,7 @@ defineExpose({
   response,
   isProcessing,
   onSend,
+  clearContexts,
 });
 </script>
 
@@ -46,6 +55,7 @@ defineExpose({
     h2 入力
     PrimeTextArea.input(v-model="prompt" placeholder="プロンプトを入力")
     PrimeButton.sendButton(label="Submit" :disabled="isProcessing || prompt === ''" @click="onSend")
+    PrimeButton.sendButton(label="コンテキスト初期化" class="p-button-danger" :disabled="isProcessing" @click="clearContexts")
 </template>
 
 <style lang="sass" scoped>
