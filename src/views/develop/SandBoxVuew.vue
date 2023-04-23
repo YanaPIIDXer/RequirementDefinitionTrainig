@@ -3,6 +3,7 @@ import { ref } from "vue";
 import MdEditor from "md-editor-v3";
 import PrimeButton from "primevue/button";
 import PrimeTextArea from "primevue/textarea";
+import { ChatGPT } from "@/classes/ChatGPT";
 
 const prompt = ref("");
 const response = ref("");
@@ -13,6 +14,16 @@ const isProcessing = ref(false);
  */
 const onSend = async () => {
   isProcessing.value = true;
+  try {
+    const gpt = new ChatGPT();
+    response.value = await gpt.sendSimple(prompt.value);
+    prompt.value = "";
+  } catch (error) {
+    alert("Error");
+    console.error(error);
+  } finally {
+    isProcessing.value = false;
+  }
 }
 
 defineExpose({
@@ -34,7 +45,7 @@ defineExpose({
   .promptArea
     h2 入力
     PrimeTextArea.input(v-model="prompt" placeholder="プロンプトを入力")
-    PrimeButton.sendButton(label="Submit" :disabled="isProcessing" @click="onSend")
+    PrimeButton.sendButton(label="Submit" :disabled="isProcessing || prompt === ''" @click="onSend")
 </template>
 
 <style lang="sass" scoped>
