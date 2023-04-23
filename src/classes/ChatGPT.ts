@@ -24,6 +24,7 @@ export class ChatGPT {
   async sendSimple (text: string): Promise<string> {
     try {
       const response = await this.client.createChatCompletion({
+        // model: "gpt-4",
         // TODO: GPT-4のウェイトリスト解禁次第切り替える
         model: "gpt-3.5-turbo",
         messages: [ { role: "user", content: text, } ],
