@@ -11,4 +11,6 @@ import "primevue/resources/primevue.min.css";
 import "primeicons/primeicons.css";
 app.use(PrimeVue);
 
+import 'md-editor-v3/lib/style.css';
+
 app.mount('#app');
