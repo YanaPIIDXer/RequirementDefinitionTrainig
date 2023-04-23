@@ -12,6 +12,8 @@
   "dependencies": {
     "md-editor-v3": "^2.11.2",
     "openai": "^3.2.1",
+    "primeflex": "^3.3.0",
+    "primeicons": "^6.0.1",
     "primevue": "^3.27.0",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6",
