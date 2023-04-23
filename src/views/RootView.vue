@@ -1,10 +1,9 @@
 <script setup lang="ts">
 </script>
 
-<template>
-  <div class="rootView">
-  </div>
+<template lang="pug">
+.rootView
 </template>
 
-<style scoped>
+<style lang="sass" scoped>
 </style>

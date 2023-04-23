@@ -1,11 +1,10 @@
 <script setup lang="ts">
 </script>
 
-<template>
-  <div class="sandBoxView">
-    <h2>SandBox</h2>
-  </div>
+<template lang="pug">
+.sandBoxView
+  h2 SandBox
 </template>
 
-<style scoped>
+<style lang="sass" scoped>
 </style>
