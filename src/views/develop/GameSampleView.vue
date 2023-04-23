@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import MdEditor from "md-editor-v3";
 import PrimeButton from "primevue/button";
 import PrimeTextArea from "primevue/textarea";
 import { ChatGPT } from "@/classes/ChatGPT";
+import { Prompts } from "@/classes/Prompts";
 
 const prompt = ref("");
 const response = ref("");
@@ -27,12 +28,34 @@ const onSend = async () => {
 };
 
 /**
- * コンテキストをクリア
+ * ゲームをリセット
  */
-const clearContexts = () => {
-  gpt.clearContexts();
-  alert("コンテキストを初期化しました");
+const resetGame = async () => {
+  await gameStart();
+  alert("ゲームをリセットしました");
 };
+
+/**
+ * ゲームスタート
+ */
+const gameStart = async () => {
+  gpt.clearContexts();
+  prompt.value = "";
+  response.value = "";
+  
+  const startPrompt = await Prompts.instance.fetchStart();
+  isProcessing.value = true;
+  try {
+    response.value = await gpt.sendSimple(startPrompt);
+  } catch (error) {
+    alert("Error");
+    console.error(error);
+  } finally {
+    isProcessing.value = false;
+  }
+};
+
+onMounted(gameStart);
 
 defineExpose({
   MdEditor,
@@ -42,7 +65,7 @@ defineExpose({
   response,
   isProcessing,
   onSend,
-  clearContexts,
+  resetGame,
 });
 </script>
 
@@ -55,7 +78,7 @@ defineExpose({
     h2 入力
     PrimeTextArea.input(v-model="prompt" placeholder="プロンプトを入力")
     PrimeButton.sendButton(label="Submit" :disabled="isProcessing || prompt === ''" @click="onSend")
-    PrimeButton.sendButton(label="コンテキスト初期化" class="p-button-danger" :disabled="isProcessing" @click="clearContexts")
+    PrimeButton.sendButton(label="ゲームをリセット" class="p-button-danger" :disabled="isProcessing" @click="resetGame")
 </template>
 
 <style lang="sass" scoped>
