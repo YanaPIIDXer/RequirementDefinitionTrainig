@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import MdEditor from "md-editor-v3";
 import PrimeButton from "primevue/button";
+import PrimeTextArea from "primevue/textarea";
 
 const prompt = ref("");
 const response = ref("");
@@ -17,9 +18,11 @@ const onSend = async () => {
 defineExpose({
   MdEditor,
   PrimeButton,
+  PrimeTextArea,
   prompt,
   response,
   isProcessing,
+  onSend,
 });
 </script>
 
@@ -27,24 +30,29 @@ defineExpose({
 .sandBoxView
   .responseArea
     h2 出力
-    MdEditor.output(v-model="response" :toolbars="[]" :footers="[]" :html-preview="true")
+    MdEditor.output(v-model="response" :toolbars="[]" :footers="[]" :preview-only="true" :html-preview="true")
   .promptArea
     h2 入力
-    MdEditor.input(v-model="prompt" placeholder="プロンプトを入力" :toolbars="[]" :footers="[]" :html-preview="true")
+    PrimeTextArea.input(v-model="prompt" placeholder="プロンプトを入力")
     PrimeButton.sendButton(label="Submit" :disabled="isProcessing" @click="onSend")
 </template>
 
 <style lang="sass" scoped>
 .sandBoxView
   .responseArea
+    border: 1px solid #00FF00
+    margin-bottom: 50px
+    
     .output
       height: 300px
 
   .promptArea
-    margin-bottom: 50px
+    border: 1px solid #0000FF
 
     .input
-      height: 300px
+      width: 100%
+      resize: none
+      height: 150px
 
     .sendButton
       width: 100%
